@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: finance-ui-config
+data:
+  domain_name: "techwithshubh.com"
