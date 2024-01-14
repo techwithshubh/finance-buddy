@@ -75,3 +75,13 @@ kustomize edit set image FINANCE_BUDDY_UI_IMAGE=techwithshubh/finance-ui:$NEW_VE
 ```
 
 8. Once the image version is updated successfully. Do the commit and push the changes to finance-buddy-infra repo.
+
+## Note
+
+1. For generating ssh key use below
+
+```
+ssh-keygen -t rsa -C "techwithshubh"
+cp id_rsa id_rsa.pem
+ssh-keygen -p -m pem -f id_rsa.pem
+```
