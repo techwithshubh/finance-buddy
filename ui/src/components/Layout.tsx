@@ -7,7 +7,7 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ children }) => {
   return (
-    <div>
+    <div className="box-border">
       <Header />
       {children}
     </div>
