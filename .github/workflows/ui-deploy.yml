@@ -7,6 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
+    environment: dev
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +27,18 @@ jobs:
           context: ui
           file: ./ui/Dockerfile
           tags: techwithshubh/finance-ui:${{ env.image_version }}
+
+      - name: Decrypt SSH Key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | openssl rsa -pass:${{ secrets.SSH_PASSPHRASE }} -out ssh_key
+
+      - name: Setup SSH
+        run: |
+          mkdir ~/.ssh
+          touch ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)"
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          chmod 600 ssh_key
+          ssh-add ssh_key
 
       - name: Clone finance-buddy-infra repo
         run: |
