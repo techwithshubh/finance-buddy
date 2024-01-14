@@ -30,7 +30,7 @@ jobs:
       - name: Clone finance-buddy-infra repo
         run: |
           cd ${{ github.workspace }}
-          git clone https://github.com/techwithshubh/finance-buddy-infra.git
+          git clone git@github.com:techwithshubh/finance-buddy-infra.git
 
       - name: Install kustomize CLI
         run: |

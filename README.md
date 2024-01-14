@@ -53,7 +53,7 @@ kubectl delete -f finance-ui.config.yml
 ## Steps for Actions Pipeline
 
 1. `cd` into ui folder
-2. Set a env and Update the version file aswell. It should have the new version. New version can be generated using below command
+2. Generate new image version using git sha hash
 
 ```
 echo "image_version=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
