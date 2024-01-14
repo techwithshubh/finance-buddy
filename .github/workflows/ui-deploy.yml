@@ -26,8 +26,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./ui
-          file: ./Dockerfile
+          context: .
+          file: ./ui/Dockerfile
           tags: techwithshubh/finance-ui:${{ env.image_version }}
 
       - name: Change directory to ui folder
