@@ -39,12 +39,11 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           chmod 600 ssh_key
           ssh-add ssh_key
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" >> ~/.ssh/id_rsa.pub
 
       - name: Clone finance-buddy-infra repo
         run: |
           cd ${{ github.workspace }}
-          git clone git@github.com:techwithshubh/finance-buddy-infra.git
+          git clone https://github.com/techwithshubh/finance-buddy-infra.git
 
       - name: Install kustomize CLI
         run: |
