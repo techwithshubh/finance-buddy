@@ -33,7 +33,10 @@ jobs:
 
       - name: Setup SSH
         run: |
+          mkdir ~/.ssh
+          touch ~/.ssh/known_hosts
           eval "$(ssh-agent -s)"
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
           chmod 600 ssh_key
           ssh-add ssh_key
 
@@ -55,6 +58,7 @@ jobs:
       - name: Commit and push changes
         run: |
           cd ${{ github.workspace }}/finance-buddy-infra
+          ssh -T git@github.com
           git remote remove origin
           git remote add origin git@github.com:techwithshubh/finance-buddy-infra.git
           git config --global user.name "techwithshubh"
