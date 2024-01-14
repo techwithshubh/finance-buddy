@@ -1,0 +1,52 @@
+name: Update and Deploy UI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+
+      - name: Change directory to ui folder
+        run: cd ui
+
+      - name: Update version file
+        run: |
+          echo "NEW_VERSION=\$(echo \$(cat version) | awk -F. '{\$NF = \$NF + 1;} 1' | sed 's/ /./g')" > version
+          echo "Updated version: \$(cat version)"
+
+      - name: Build Docker image
+        run: docker build -t techwithshubh/finance-ui:$(cat version) .
+
+      - name: Clone finance-buddy-infra repo
+        run: |
+          git clone https://github.com/techwithshubh/finance-buddy-infra
+          cd finance-buddy-infra
+
+      - name: Install kustomize CLI
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+
+      - name: Change directory to dev folder
+        run: cd dev
+
+      - name: Update image version in Kustomization.yml
+        run: kustomize edit set image FINANCE_BUDDY_UI_IMAGE=techwithshubh/finance-ui:$NEW_VERSION
+
+      - name: Commit and push changes
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add .
+          git commit -m "Update UI image version to $NEW_VERSION"
+          git push

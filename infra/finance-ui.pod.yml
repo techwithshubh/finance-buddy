@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: finance-ui
-spec:
-  containers:
-  - name: finance-ui
-    image: techwithshubh/finance-ui
-    imagePullPolicy: Never
