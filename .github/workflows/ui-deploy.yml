@@ -21,8 +21,15 @@ jobs:
           echo "NEW_VERSION=\$(echo \$(cat version) | awk -F. '{\$NF = \$NF + 1;} 1' | sed 's/ /./g')" > version
           echo "Updated version: \$(cat version)"
 
-      - name: Build Docker image
-        run: docker build -t techwithshubh/finance-ui:$(cat version) .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          tags: techwithshubh/finance-ui:$(cat version)
 
       - name: Clone finance-buddy-infra repo
         run: |
