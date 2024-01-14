@@ -29,7 +29,7 @@ jobs:
 
       - name: Clone finance-buddy-infra repo
         run: |
-          cd ..
+          cd ${{ github.workspace }}
           git clone https://github.com/techwithshubh/finance-buddy-infra.git
 
       - name: Install kustomize CLI
@@ -39,11 +39,12 @@ jobs:
 
       - name: Update image version in Kustomization.yml
         run: |
-          cd finance-buddy-infra/dev/
+          cd ${{ github.workspace }}/finance-buddy-infra/dev/
           kustomize edit set image FINANCE_BUDDY_UI_IMAGE=techwithshubh/finance-ui:${{ env.image_version }}
 
       - name: Commit and push changes
         run: |
+          cd ${{ github.workspace }}/finance-buddy-infra
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add .
