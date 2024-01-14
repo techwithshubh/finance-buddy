@@ -64,4 +64,4 @@ jobs:
           git config --global user.email "techwithshubh@outlook.com"
           git add .
           git commit -m "Update UI image version to ${{ env.image_version }}"
-          git push
+          git push --set-upstream origin master
