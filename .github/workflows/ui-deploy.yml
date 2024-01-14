@@ -27,11 +27,9 @@ jobs:
           file: ./ui/Dockerfile
           tags: techwithshubh/finance-ui:${{ env.image_version }}
 
-      - name: Change directory to ui folder
-        run: cd ..
-
       - name: Clone finance-buddy-infra repo
         run: |
+          cd ..
           git clone https://github.com/techwithshubh/finance-buddy-infra.git
 
       - name: Install kustomize CLI
@@ -39,11 +37,10 @@ jobs:
           curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
           sudo mv kustomize /usr/local/bin/
 
-      - name: Change directory to dev folder
-        run: cd finance-buddy-infra/dev/
-
       - name: Update image version in Kustomization.yml
-        run: kustomize edit set image FINANCE_BUDDY_UI_IMAGE=techwithshubh/finance-ui:${{ env.image_version }}
+        run: |
+          cd finance-buddy-infra/dev/
+          kustomize edit set image FINANCE_BUDDY_UI_IMAGE=techwithshubh/finance-ui:${{ env.image_version }}
 
       - name: Commit and push changes
         run: |

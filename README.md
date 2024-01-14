@@ -56,7 +56,7 @@ kubectl delete -f finance-ui.config.yml
 2. Set a env and Update the version file aswell. It should have the new version. New version can be generated using below command
 
 ```
-echo NEW_VERSION=$(echo $(cat version) | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+echo "image_version=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
 ```
 3. Once the version file is updated with new version, it should run the docker build using below command
 
